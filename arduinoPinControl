@@ -1,0 +1,195 @@
+// this code is usefull to switch on/of the digital pins on Arduino microcontroller.
+
+import processing.serial.*; 
+import cc.arduino.*; 
+import g4p_controls.*; 
+
+Arduino arduino; 
+int bgcol = 255;
+
+PFont font;
+boolean count = false;
+int numrect = 14;
+
+Status[] pin = new Status[numrect];
+
+void setup()
+{
+arduino = new Arduino(this, Arduino.list()[0], 57600);
+size(650,600);
+
+//create the objects of the status class
+for (int i = 0; i< numrect; i++)
+{
+  pin[i] = new Status(530,611 - i*22 - 193,false,13,13,pin);
+}
+configuration();
+setLabel();
+}
+
+void draw()
+{
+  
+ 
+background(bgcol);
+fill(color(100,200,200));
+noStroke();
+rect(0,0,width,100,5);
+fill(color(100,150,200));
+//Arduino base
+rect(100,180,300,400,5);
+fill(color(200,200,200));
+//Arduino usb
+rect(300,140,70,90,5);
+fill(color(20,20,20));
+//Arduino artmega
+rect(180,360,50,200,5);
+fill(color(20,20,20));
+//Arduino pins sustains
+rect(110,262,30,298,5);
+rect(360,262,30,298,5);
+fill(255);
+//artmega pins
+rect(175,365,5,10,4);
+rect(175,380,5,10,4);
+rect(175,395,5,10,4);
+rect(175,410,5,10,4);
+rect(175,425,5,10,4);
+rect(175,440,5,10,4);
+rect(175,455,5,10,4);
+rect(175,470,5,10,4);
+rect(175,485,5,10,4);
+rect(175,500,5,10,4);
+rect(175,515,5,10,4);
+rect(175,530,5,10,4);
+rect(175,545,5,10,4);
+
+rect(230,365,5,10,4);
+rect(230,380,5,10,4);
+rect(230,395,5,10,4);
+rect(230,410,5,10,4);
+rect(230,425,5,10,4);
+rect(230,440,5,10,4);
+rect(230,455,5,10,4);
+rect(230,470,5,10,4);
+rect(230,485,5,10,4);
+rect(230,500,5,10,4);
+rect(230,515,5,10,4);
+rect(230,530,5,10,4);
+rect(230,545,5,10,4);
+
+//alimentatore
+fill(0);
+rect( 120,160,40,60,5);
+
+//right layout of the window
+fill(color(100,200,200));
+rect(450,104,width,350,5);
+rect(450,455,width,height,5);
+
+//Text for the title of schetch
+  fill(255);
+  font = loadFont("ComicSansMS-Bold-22.vlw");
+  textFont(font);
+  text("ARDUINO PINS CONTROL",100,60);
+  
+  //part of code used to on/off the pin 
+  for(int i = 0; i<digital.length; i++)
+  {
+  
+  
+  if( pin[i].tempid == true)
+  {
+    int x = 365;
+  int y = 325;
+  
+  arduino.pinMode(i,Arduino.OUTPUT);
+  arduino.digitalWrite(i,Arduino.HIGH);
+  pin[i].c = color(0,200,0); 
+  pin[i].display();
+  }
+  
+  else 
+  {
+    int x = 365;
+  int y = 325;
+  
+  arduino.pinMode(i,Arduino.OUTPUT);
+  arduino.digitalWrite(i,Arduino.LOW);
+  pin[i].c = color(200,0,0); 
+  pin[i].display();
+  }
+  }
+  
+  //create a dynamic label for analogic pins
+   for(int i = 0; i< lranalog.length; i++)
+  {
+   float millivolt = 5.0f/1023.0f;
+  int x = 365;
+  int y = 325;
+  lranalog[i] = new GLabel(this,x + 100, y + i*22 + 130, 200, 30, "PIN  A" + (i) + ": ");
+  lranalog[i].setLocalColorScheme(8);
+  lranalog[i].setTextAlign(GAlign.LEFT,null);
+  lranalog[i].setTextBold();
+  font = loadFont("ComicSansMS-Bold-12.vlw");
+  textFont(font);
+  text("" + ((arduino.analogRead(i)*millivolt)*0.978f) + " Volt",x + 160, y + i*22 + 150);
+  }
+  
+
+}
+
+//function to handle the mouse events
+public void handleButtonEvents(GButton button, GEvent event) {
+   
+  for(int i = 0; i<digital.length; i++)
+  {
+    int x = 365;
+  int y = 325;
+  if(button == digital[i] && event == GEvent.CLICKED)
+   {
+     if (count == false)
+     {
+    
+       count = true;
+       pin[i].tempid = true;
+          
+      
+     }
+     else if(count == true)
+     {
+       count = false;
+        pin[i].tempid = false;
+    
+     }
+   }
+  } 
+}
+
+
+
+//class to create the status rectangles for the right pins layout
+class Status
+{
+int tempx, tempy,tempw,temph;
+color c;
+boolean tempid;
+Status[] tempin;
+
+//constructor of the class
+Status(int x, int y, boolean id, int w, int h, Status[] pin)
+{
+tempx = x;
+tempy = y;
+tempid = id;
+tempw = w;
+temph = h;
+tempin = pin;
+}
+
+void display()
+{
+fill(c);
+rect( tempx,tempy, tempw,temph,5);
+}
+}
