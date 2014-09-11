@@ -1,0 +1,135 @@
+//this is the configurations file for arduinoPinsControl, to run the code you need the arduino and gp4 library for processing,
+// and you need to run the Standard Firmata schetch on Arduino microcontroller, you could find it on Firmata arduino library.
+
+GLabel title, lRESET,lIOREF,lAREF,lGND1,lGND2,
+              lGND3,lfive,lthree,lVin;
+              
+GLabel[] ldigital= new GLabel[14];
+GLabel[] lanalog = new GLabel[6];
+GLabel[] lrdigital= new GLabel[14];
+GLabel[] lranalog = new GLabel[6];
+              
+GButton[] digital = new GButton[14];
+GButton[] analog = new GButton[6];
+GButton bGND1, bGND2, bGND3, bAREF, bIOREF, bRESET, bVin, bfive, bthree;
+
+
+
+public void configuration()
+{
+  
+  int x = 365;
+  int y = 300;
+for(int i = 0; i< digital.length; i++)
+{
+  digital[i] = new GButton(this,x, y + 234 - i*18 + 7, 20,15,"");
+  digital[i].setLocalColorScheme(0);
+  digital[i].fireAllEvents(true); 
+  
+}
+
+bGND2 = new GButton(this,x, y -12, 20,15,"");
+bGND2.setLocalColorScheme(0);
+
+bAREF = new GButton(this,x, y - 30, 20,15,"");
+bAREF.setLocalColorScheme(0);
+
+for(int j= 0; j< analog.length; j++)
+{
+analog[j] = new GButton(this, x - 250, y + 150 + j*18,20,15,"");
+analog[j].setLocalColorScheme(0);
+analog[j].fireAllEvents(true);
+}
+
+bVin = new GButton(this,x -250, y + 100, 20,15,"");
+bVin.setLocalColorScheme(0);
+
+bGND1 = new GButton(this,x -250, y + 82, 20,15,"");
+bGND1.setLocalColorScheme(0);
+
+bfive = new GButton(this,x -250, y + 64, 20,15,"");
+bfive.setLocalColorScheme(0);
+
+bthree = new GButton(this,x -250, y + 46, 20,15,"");
+bthree.setLocalColorScheme(0);
+
+bRESET = new GButton(this,x -250, y + 28, 20,15,"");
+bRESET.setLocalColorScheme(0);
+
+bIOREF = new GButton(this,x -250, y + 10, 20,15,"");
+bIOREF.setLocalColorScheme(0);
+}
+
+public void setLabel()
+{
+  int x = 365;
+  int y = 325;
+  for(int i = 0; i< ldigital.length; i++)
+  {
+  
+  ldigital[i] = new GLabel(this,x - 40, y + i*18 - 25, 30, 30, "" + (13-i));
+  ldigital[i].setLocalColorScheme(9);
+  ldigital[i].setTextAlign(GAlign.RIGHT,null);
+  ldigital[i].setTextBold();
+  }
+  
+  for(int j = 0; j< lanalog.length; j++)
+  {
+  lanalog[j] = new GLabel(this,x - 222 , y + j*18 + 118, 30, 30, "A" + (5-j));
+  lanalog[j].setLocalColorScheme(9);
+  lanalog[j].setTextAlign(GAlign.LEFT,null);
+  lanalog[j].setTextBold();
+  }
+  
+  lVin = new GLabel(this,x - 222 , y + 66, 30, 30, "Vin");
+  lVin.setLocalColorScheme(9);
+  lVin.setTextAlign(GAlign.LEFT,null);
+  lVin.setTextBold();
+  
+  lGND1 = new GLabel(this,x - 222 , y + 48, 30, 30, "GND");
+  lGND1.setLocalColorScheme(9);
+  lGND1.setTextAlign(GAlign.LEFT,null);
+  lGND1.setTextBold();
+  
+  lfive = new GLabel(this,x - 222 , y + 30, 30, 30, "5V");
+  lfive.setLocalColorScheme(9);
+  lfive.setTextAlign(GAlign.LEFT,null);
+  lfive.setTextBold();
+  
+  lthree = new GLabel(this,x - 222 , y + 13, 30, 30, "3,3V");
+  lthree.setLocalColorScheme(9);
+  lthree.setTextAlign(GAlign.LEFT,null);
+  lthree.setTextBold();
+  
+  lRESET = new GLabel(this,x - 222 , y - 4, 50, 30, "RESET");
+  lRESET.setLocalColorScheme(9);
+  lRESET.setTextAlign(GAlign.LEFT,null);
+  lRESET.setTextBold();
+  
+  lIOREF = new GLabel(this,x - 222 , y - 22, 50, 30, "IOREF");
+  lIOREF.setLocalColorScheme(9);
+  lIOREF.setTextAlign(GAlign.LEFT,null);
+  lIOREF.setTextBold();
+  
+  lGND2 = new GLabel(this,x - 38 , y -45, 30, 30, "GND");
+  lGND2.setLocalColorScheme(9);
+  lGND2.setTextAlign(GAlign.RIGHT,null);
+  lGND2.setTextBold();
+  
+  lAREF = new GLabel(this,x - 56 , y -63, 50, 30, "AREF");
+  lAREF.setLocalColorScheme(9);
+  lAREF.setTextAlign(GAlign.RIGHT,null);
+  lAREF.setTextBold();
+  
+  for(int i = 0; i< lrdigital.length; i++)
+  {
+  
+  lrdigital[i] = new GLabel(this,x + 100, y + i*22 - 200, 70, 30, "PIN  " + (13-i) + ":");
+  lrdigital[i].setLocalColorScheme(8);
+  lrdigital[i].setTextAlign(GAlign.LEFT,null);
+  lrdigital[i].setTextBold();
+  }
+  
+ 
+}
+
